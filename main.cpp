@@ -1,8 +1,4 @@
 //
-// Permutation searcher by Nigel Stewart (nigels@eisa.net.au)
-//
-// It's crude, it's rude, it's inefficient ... this is science, not engineering! ;)
-//
 // parameters: k n l
 //
 // k is size of required permutations
@@ -10,13 +6,17 @@
 // l is the length of the sequences to start looking in
 //   n(n+1)/2 >= l >= n(n-1)+1
 
-#include <iostream.h>
-#include <assert.h>
-#include <vector.h>
-#include <algo.h>
+#include <iostream>
+#include <cassert>
+#include <vector>
+#include <algorithm>
+//#include <algo.h>
 
-typedef vector<char> string;
-typedef vector<char> alphabet;
+#include "sequence.h"
+
+using namespace std;
+
+typedef string      alphabet;
 typedef vector<int> histogram;
 
 ///////
@@ -49,6 +49,7 @@ ostream &operator <<(ostream &os,const vector<histogram> &h)
     return os;
 }
 
+#if 0
 ////////////////
 // factorial
 //
@@ -65,6 +66,8 @@ factorial(const unsigned long n)
 
     return result;
 }
+
+#endif
 
 double
 factorialD(const unsigned long n)
@@ -94,6 +97,7 @@ factorise(unsigned long n)
     }
 }
 
+#if 0
 ///////////////////
 // power
 //
@@ -113,6 +117,7 @@ power(const unsigned long x,const unsigned long y)
 
     return result;
 }
+#endif
 
 ////////////////////////////////////////////////
 // permute
@@ -253,8 +258,8 @@ select(const alphabet &alpha,const unsigned long n,const unsigned long index)
 int
 match(const string &s,const string &p)
 {
-    unsigned int sp=0;
-    unsigned int pp=0;
+    size_t sp = 0;
+    size_t pp = 0;
 
     for (;;)
     {
@@ -552,23 +557,6 @@ int main(int argc,char *argv[])
     cout << "l = " << l << endl;
 
     cout << endl;
-
-#if 0
-    vector<histogram> h = histogramLength(histograms(l),n);
-
-    double arr = 0.0;
-
-    for (int ph=0; ph<h.size(); ph++)
-    {
-        double a = arrangements(h[ph]);
-        arr += a;
-        cout << h[ph] << " (" << a << ')' << endl;
-    }
-
-    cout << '(' << arr << ')' << endl;
-
-    return 0;
-#endif
 
     //
     // Create alphabet of size n

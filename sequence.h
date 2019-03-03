@@ -1,28 +1,22 @@
-#ifndef PES_SEQUENCE_H
-#define PES_SEQUENCE_H
+#pragma once
 
 #include <vector>
 #include <string>
 #include <iosfwd>
 
-typedef unsigned long ulong;
-typedef unsigned int  uint;
+uint64_t factorial(const uint64_t n);
+uint64_t power(const uint64_t a,const uint64_t b);
 
 //
 
-ulong factorial(const ulong n);
-ulong power(const ulong a,const ulong b);
-
-//
-
-class PesSequence : public std::vector<ulong>
+class PesSequence : public std::vector<uint64_t>
 {
 public:
-    PesSequence(const ulong n = 2,const ulong l = 0);
+    PesSequence(const uint64_t n = 2,const uint64_t l = 0);
     PesSequence(const char *str);
     PesSequence(std::istream &is);
 
-    ulong base() const;
+    uint64_t base() const;
 
     // IO
 
@@ -54,21 +48,21 @@ public:
 
     // Offset each element
 
-    PesSequence  operator+ (const ulong &x);
-    PesSequence &operator+=(const ulong &x);
+    PesSequence  operator+ (const uint64_t &x);
+    PesSequence &operator+=(const uint64_t &x);
 
     //
     // Is another string contained by 'decimation'?
     //
 
     bool    insideByDecimation(const PesSequence &str) const;
-    bool    insideByDecimation(const ulong c) const;
+    bool    insideByDecimation(const uint64_t c) const;
 
     //
     // Swap two entries in the string
     //
 
-    PesSequence transposition(const uint a,const uint b) const;
+    PesSequence transposition(const uint32_t a,const uint32_t b) const;
 
     //
     // Remap entries according to provided
@@ -101,23 +95,23 @@ public:
     // Extract all but n'th character in string
     //
 
-    PesSequence skipNth(const uint pos) const;
+    PesSequence skipNth(const uint32_t pos) const;
 
     //
 
-    static PesSequence         random(const uint n,const uint l);
-    static PesSequence         randomNoDup(const uint n,const uint l);
+    static PesSequence         random(const uint32_t n,const uint32_t l);
+    static PesSequence         randomNoDup(const uint32_t n,const uint32_t l);
 
 	//
 
-    static PesSequence              permutation (const ulong n,const ulong p,const ulong k=0);
-    static std::vector<PesSequence> permutations(const ulong n,const ulong k=0);
+    static PesSequence              permutation (const uint64_t n,const uint64_t p,const uint64_t k=0);
+    static std::vector<PesSequence> permutations(const uint64_t n,const uint64_t k=0);
 
 	//
 
-	static PesSequence adleman74 (const ulong n);
-	static PesSequence galbiati76(const ulong n);
-	static PesSequence savage82  (const ulong n,const ulong k);
+	static PesSequence adleman74 (const uint64_t n);
+	static PesSequence galbiati76(const uint64_t n);
+	static PesSequence savage82  (const uint64_t n,const uint64_t k);
 
     // Comparison
 
@@ -129,11 +123,9 @@ public:
 
 private:
 
-    typedef std::vector<ulong>::iterator iterator;
+    typedef std::vector<uint64_t>::iterator iterator;
 
-    ulong _n;
+    uint64_t _n;
 };
 
 extern void displayString(const PesSequence &str);
-
-#endif
