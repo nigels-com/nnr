@@ -518,46 +518,15 @@ int main(int argc,char *argv[])
 
     cout << endl;
 
-#if 0
-    //
-    // Create alphabet of size n
-    //
-
-    alphabet alpha;
-
-    for (int m=0; m<n; m++)
-        alpha.push_back('a'+m);
-
-    cout << "'" << alpha << "'" << endl;
-
-    //
-    // Find all permutations of interest
-    //
-
-    vector<string> perms = permute(alpha,k);
-
-    cout << perms.size() << " permutations... " << endl;
-
-    cout << perms << endl;
-
-    //
-    // Test all sequences against each permutation
-    //
-
-    for (int o=l;; o++ )
-    {
-        cout << "Trying strings of length " << o << endl;
-        if (testSequence(alpha,perms,o))
-            break;
-    }
-#else
-
     PesTest test(STRING_TEST_ALL_BY_DECIMATION);
     test.criteria() = PesSequence::permutations(n, k);
+
     cout << "Permutations: " << test.criteria().size() << endl;
 
+    cout << "NNR Size: "       << NNRsize(n,l) << endl;
+    cout << "NNR Partitions: " << NNRpartitions(n,l) << endl;
+
     NNRtest(n, l, test);
-#endif
 
     cout << endl;
 

@@ -1,7 +1,5 @@
 #include "nnr.h"
 
-//#include "sequence.h"
-
 #include <cmath>
 #include <cassert>
 #include <iostream>
@@ -50,40 +48,35 @@ uint64_t NNRsize(const uint64_t n,const uint64_t length)
         return 0;
 
 	// Allocate storage for two rows of length n
-	uint64_t *buffer = new uint64_t[2*n];
-	assert(buffer);
+	std::vector<uint64_t> a(n);
+    std::vector<uint64_t> b(n);
 
     // Table is initialised to 1,0,0,...
-	uint64_t *row = buffer;
-    row[0] = 1;
-    for (uint32_t k=1; k<n; k++)
-        row[k] = 0;
+	uint64_t *current = &a[0];
+    current[0] = 1;
+    for (size_t k=1; k<n; k++)
+        current[k] = 0;
 
 	// Next row follows current row in memory
-	uint64_t *next = buffer+n;
+	uint64_t *next = &b[0];
 
-    // Calculate subsequent rows of table iteratively, 
+    // Calculate subsequent rows of table iteratively,
 	// based on values of previous row.
 
-    for (uint32_t i=1; i<length; i++)
+    for (size_t i=1; i<length; i++)
     {
         next[0] = 0;
 
         // Apply recursive definition
-        for (uint32_t j=1; j<n; j++)
-            next[j] = row[j]*j + row[j-1];
+        for (size_t j=1; j<n; j++)
+            next[j] = current[j]*j + current[j-1];
 
         // Update row pointer
-		swap(row,next);
+		swap(current, next);
     }
 
     // NNR size is n'th element of last row.
-	uint64_t size = row[n-1];
-
-	// Free resources
-	delete [] buffer;
-
-    return size;
+	return current[n-1];
 }
 
 //
@@ -115,7 +108,7 @@ uint64_t NNRsize(const uint64_t n,const uint64_t length)
 // z = (n-1)!
 //
 
-Integer
+uint64_t
 NNRpartitions(const uint64_t n, const uint64_t length)
 {
     uint64_t x = 1;
@@ -137,7 +130,7 @@ NNRpartitions(const uint64_t n, const uint64_t length)
 // greater than 1, resulting in not a strictly NNR
 // sequence
 
-uint32v NNRpartition(const uint32_t n,const uint32_t length,const PesInteger &i)
+uint32v NNRpartition(const uint64_t n,const uint64_t length,const PesInteger &i)
 {
     assert(n>0);        // n must be positive integer
     assert(length>0);   // length must be positive integer
@@ -152,10 +145,10 @@ uint32v NNRpartition(const uint32_t n,const uint32_t length,const PesInteger &i)
 
     //
 
-    PesInteger idx(i);
+    uint64_t idx(i);
 
-    uint32_t _n=n;
-    uint32_t _length=length;
+    uint64_t _n=n;
+    uint64_t _length=length;
 
     // Output vector
 
@@ -166,22 +159,22 @@ uint32v NNRpartition(const uint32_t n,const uint32_t length,const PesInteger &i)
         // Choice is contrained by the number of free slots,
         // those not occupied by first a,b,c,...
 
-        uint32_t choices = _length-_n+1;
+        uint64_t choices = _length-_n+1;
 
         // Track the bounds of current solutions
         // in order to locate i'th possible partition
 
-        PesInteger begin(0);
-        PesInteger end(0);
+        uint64_t begin = 0;
+        uint64_t end = 0;
 
         // Try each choice until i'th possibility located
 
-        for (uint32_t c=0; c<choices; c++)
+        for (uint64_t c=0; c<choices; c++)
         {
             // Find the number of possible partitions
             // of n-1 elements of length-1-c
 
-            PesInteger parts = NNRpartitions(_n-1,_length-1-c);
+            uint64_t parts = NNRpartitions(_n-1, _length-1-c);
 
             begin = end;
             end   += parts;
@@ -229,12 +222,11 @@ uint32v NNRpartition(const uint32_t n,const uint32_t length,const PesInteger &i)
 // but things quickly muliply out in subsequent segments.
 //
 
-Integer
+uint64_t
 NNRpartitionSize(const std::vector<uint32_t> &p)
 {
-    PesInteger size = 1;
-
-    for (uint32_t i=1; i<p.size(); i++)
+    uint64_t size = 1;
+    for (size_t i=1; i<p.size(); i++)
         size *= pow(Integer(i),Integer(p[i]-1));
 
     return size;
@@ -244,8 +236,8 @@ NNRpartitionSize(const std::vector<uint32_t> &p)
 // Determine the i'th sequence of a particular NNR partition
 //
 
-Sequence 
-NNRsequence(const std::vector<uint32_t> &p,const Integer &i)
+Sequence
+NNRsequence(const std::vector<uint32_t> &p, const Integer &i)
 {
     assert(p.size()>0);
 
@@ -287,7 +279,7 @@ NNRsequence(const std::vector<uint32_t> &p,const Integer &i)
 //
 
 Sequence
-NNRsequence(const uint32_t n,const uint32_t length,const PesInteger &index)
+NNRsequence(const uint32_t n, const uint32_t length, const PesInteger &index)
 {
     PesInteger idx(index);
 
@@ -329,11 +321,10 @@ void NNRtest(const uint64_t n, const uint64_t length, PesTest &test)
         return;
 
     uint64_t partitions = NNRpartitions(n-1,length-1);
-    cout << "Partitions: " << partitions << endl;
 
     // All partitions
     for (uint64_t i=0; i<partitions; i+=1 )
-        NNRtest(n,length,test,i);
+        NNRtest(n, length, test, i);
 }
 
 void NNRtest(const uint64_t n, const uint64_t length, PesTest &test, const PesInteger &part)
@@ -342,7 +333,7 @@ void NNRtest(const uint64_t n, const uint64_t length, PesTest &test, const PesIn
     uint64_t size = NNRpartitionSize(seg);
 
     for (uint64_t j=0; j<size; j+=1)
-        test.test(NNRsequence(seg,j));
+        test.test(NNRsequence(seg, j));
 }
 
 /////////////////////////////////////////
@@ -350,32 +341,32 @@ void NNRtest(const uint64_t n, const uint64_t length, PesTest &test, const PesIn
 /////////////////////////////////////////
 
 void
-NNRprintSequences(const uint32_t n,const uint32_t length)
+NNRprintSequences(const uint64_t n, const uint64_t length)
 {
-    PesInteger i    = 0;
-    PesInteger size = NNRsize(n,length);
+    uint64_t i    = 0;
+    uint64_t size = NNRsize(n,length);
 
     for (;i<size; i++)
     {
-        Sequence seq = NNRsequence(n,length,i);
+        Sequence seq = NNRsequence(n, length, i);
         cout << seq << endl;
     }
 }
 
 void
-NNRprintPartitions(const uint32_t n,const uint32_t length)
+NNRprintPartitions(const uint64_t n, const uint64_t length)
 {
-    PesInteger i    = 0;
-    PesInteger size = NNRpartitions(n-1,length-1);
+    uint64_t i    = 0;
+    uint64_t size = NNRpartitions(n-1,length-1);
 
     for (;i<size; i++)
     {
-        uint32v p = NNRpartition(n,length,i);
-        PesInteger pSize = NNRpartitionSize(p);
+        uint32v p = NNRpartition(n, length, i);
+        uint64_t pSize = NNRpartitionSize(p);
 
         cout << pSize << " { ";
 
-        for (uint k=0; k<p.size(); k++)
+        for (size_t k=0; k<p.size(); k++)
         {
             if (k>0)
                 cout << ',';
@@ -384,13 +375,10 @@ NNRprintPartitions(const uint32_t n,const uint32_t length)
 
         cout << " } " << endl;
 
-        for (PesInteger j=0; j<pSize; j++)
+        for (uint64_t j=0; j<pSize; j++)
         {
             Sequence seq = NNRsequence(p,j);
             cout << seq << endl;
         }
     }
 }
-
-//#endif
-
