@@ -12,6 +12,8 @@
 #include <algorithm>
 //#include <algo.h>
 
+#include "nnr.h"
+#include "test.h"
 #include "sequence.h"
 
 using namespace std;
@@ -49,26 +51,6 @@ ostream &operator <<(ostream &os,const vector<histogram> &h)
     return os;
 }
 
-#if 0
-////////////////
-// factorial
-//
-// find n!, given n
-//
-
-unsigned long
-factorial(const unsigned long n)
-{
-    unsigned long result = 1;
-
-    for (unsigned long i=2; i<=n; i++)
-        result *= i;
-
-    return result;
-}
-
-#endif
-
 double
 factorialD(const unsigned long n)
 {
@@ -96,28 +78,6 @@ factorise(unsigned long n)
         d++;
     }
 }
-
-#if 0
-///////////////////
-// power
-//
-// find x^y
-//
-
-unsigned long
-power(const unsigned long x,const unsigned long y)
-{
-    unsigned long result = 1;
-
-    for (unsigned long n=0; n<y; n++)
-    {
-        result *= x;
-        assert(result>=x);
-    }
-
-    return result;
-}
-#endif
 
 ////////////////////////////////////////////////
 // permute
@@ -558,6 +518,7 @@ int main(int argc,char *argv[])
 
     cout << endl;
 
+#if 0
     //
     // Create alphabet of size n
     //
@@ -589,6 +550,14 @@ int main(int argc,char *argv[])
         if (testSequence(alpha,perms,o))
             break;
     }
+#else
+
+    PesTest test(STRING_TEST_ALL_BY_DECIMATION);
+    test.criteria() = PesSequence::permutations(n, k);
+    cout << "Permutations: " << test.criteria().size() << endl;
+
+    NNRtest(n, l, test);
+#endif
 
     cout << endl;
 

@@ -44,23 +44,23 @@ T fac(const T n)
 // O(n) storage.
 //
 
-Integer NNRsize(const uint32_t n,const uint32_t length)
+uint64_t NNRsize(const uint64_t n,const uint64_t length)
 {
     if (length<n || n<1 || length<1)
         return 0;
 
 	// Allocate storage for two rows of length n
-	Integer *buffer = new Integer[2*n];
+	uint64_t *buffer = new uint64_t[2*n];
 	assert(buffer);
 
     // Table is initialised to 1,0,0,...
-	Integer *row = buffer;
+	uint64_t *row = buffer;
     row[0] = 1;
     for (uint32_t k=1; k<n; k++)
         row[k] = 0;
 
 	// Next row follows current row in memory
-	Integer *next = buffer+n;
+	uint64_t *next = buffer+n;
 
     // Calculate subsequent rows of table iteratively, 
 	// based on values of previous row.
@@ -78,7 +78,7 @@ Integer NNRsize(const uint32_t n,const uint32_t length)
     }
 
     // NNR size is n'th element of last row.
-	Integer size = row[n-1];
+	uint64_t size = row[n-1];
 
 	// Free resources
 	delete [] buffer;
@@ -116,11 +116,11 @@ Integer NNRsize(const uint32_t n,const uint32_t length)
 //
 
 Integer
-NNRpartitions(const uint32_t n,const uint32_t length)
+NNRpartitions(const uint64_t n, const uint64_t length)
 {
-    Integer x(1);
-    Integer y(1);
-    Integer z(1);
+    uint64_t x = 1;
+    uint64_t y = 1;
+    uint64_t z = 1;
 
     if (length>1)   x = fac(length-1);
     if (n>1)        y = fac(n-1);
@@ -318,33 +318,32 @@ NNRsequence(const uint32_t n,const uint32_t length,const PesInteger &index)
     return Sequence(n);
 }
 
-#if 0
 /////////////////////////////////////////
 // NNR Testing
 
-void NNRtest(const ulong n,const ulong length,PesTest &test)
+void NNRtest(const uint64_t n, const uint64_t length, PesTest &test)
 {
     assert(length>=n);
 
     if (length<n)
         return;
 
-    PesInteger partitions = NNRpartitions(n-1,length-1);
+    uint64_t partitions = NNRpartitions(n-1,length-1);
+    cout << "Partitions: " << partitions << endl;
 
     // All partitions
-    for (PesInteger i=0;i<partitions; i+=1 )
+    for (uint64_t i=0; i<partitions; i+=1 )
         NNRtest(n,length,test,i);
 }
 
-void NNRtest(const ulong n,const ulong length,PesTest &test,const PesInteger &part)
+void NNRtest(const uint64_t n, const uint64_t length, PesTest &test, const PesInteger &part)
 {
-    uint32v    seg  = NNRpartition(n,length,part);
-    PesInteger size = NNRpartitionSize(seg);
+    uint32v  seg  = NNRpartition(n,length,part);
+    uint64_t size = NNRpartitionSize(seg);
 
-    for (PesInteger j=0; j<size; j+=1)
+    for (uint64_t j=0; j<size; j+=1)
         test.test(NNRsequence(seg,j));
 }
-#endif
 
 /////////////////////////////////////////
 // DEBUG ROUTINES

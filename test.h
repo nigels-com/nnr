@@ -1,10 +1,9 @@
-#ifndef PES_TEST_H
-#define PES_TEST_H
+#pragma once
 
 #include <vector>
 #include <iosfwd>
 
-#include <sequence.h>
+#include "sequence.h"
 
 typedef enum
 {
@@ -54,5 +53,3 @@ private:
   bool               _enableHistogram;
   std::vector<ulong> _histogram;
 };
-
-#endif
