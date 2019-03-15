@@ -11,12 +11,12 @@ Normalised No-Repeat (NNR) sequences
 
 # Scripts
 
-| Command   | Parameters | Description              | Output                    |
-| --------- | ---------- | ------------------------ | ------------------------- |
-| (nnr2.sh) |            | Filter NNR *n=2* for PES | *a*                       |
-| (nnr3.sh) |            | Filter NNR *n=3* for PES | *aba*                     |
-| (nnr4.sh) |            | Filter NNR *n=4* for PES | *abcabac* ...             |
-| (nnr5.sh) |            | Filter NNR *n=5* for PES | *abcdeabcdaebcadbcea* ... |
+| Command            | Description              | Output                    |
+| ------------------ | ------------------------ | ------------------------- |
+| [nnr2.sh](nnr2.sh) | Filter NNR *n=2* for PES | *a*                       |
+| [nnr3.sh](nnr3.sh) | Filter NNR *n=3* for PES | *aba*                     |
+| [nnr4.sh](nnr4.sh) | Filter NNR *n=4* for PES | *abcabac* ...             |
+| [nnr5.sh](nnr5.sh) | Filter NNR *n=5* for PES | *abcdeabcdaebcadbcea* ... |
 
 ## AWS Benchmarks
 
