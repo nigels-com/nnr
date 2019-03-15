@@ -1,6 +1,52 @@
 # nnr
 
-Normalised No-Repeat (NNR) sequences
+# Concepts
+
+## Permutations
+
+## Permutation Embedding Sequences (PES)
+
+PES embed permutations. A sequence is said to be embedded
+if it can be formed by removing other entries. For example,
+the sequences ab and ac are embedded in abc.
+Neither ba or ca are embedded in abc.
+
+Example: cabcabc embeds all permutations of a, b and c
+
+  *abc***
+  *a*c*b*
+  **b*a*c
+  **bca**
+  cab****
+  c*b*a**
+
+## Normalised No Repeat (NNR) Sequences
+
+- Contain all n elements at least once
+- Contain no adjacent repetitions of elements
+- Normalised.  The first a somewhere to the left of the first b,
+  the first b somewhere to the left of the first c, and so on.
+
+Examples:
+- caaa is not NNR because b is omitted
+- cabb is not NNR because b is repeated
+- cabcabc is not NNR because the first a is to the right of the first c.
+- abcabca is NNR
+- abcabca embeds all permutations of a, b and c
+
+  abc****
+  a*c*b**
+  *b*a*c*
+  *bca***
+  **cab**
+  **c*b*a
+
+## Thesis
+
+PhD Thesis, Chapter 5
+
+N. Stewart, An Image-Space Algorithm for Hardware-Based Rendering of
+Constructive Solid Geometry, May 2008
 
 # CLI Tools
 
@@ -18,7 +64,17 @@ Normalised No-Repeat (NNR) sequences
 | [nnr4.sh](nnr4.sh) | Filter NNR *n=4* for PES | *abcabac* ...             |
 | [nnr5.sh](nnr5.sh) | Filter NNR *n=5* for PES | *abcdeabcdaebcadbcea* ... |
 
-## AWS Benchmarks
+## Benchmarks
+
+### nnr5.sh
+
+| Target                              | Time                     | Relative Time             |
+| ----------------------------------- | ------------------------ | ------------------------- |
+| Intel® Core™ i5-2500K CPU @ 3.30GHz |                          | 1.0                       |
+| Raspberry Pi 3 Model B+             |                          |                           |
+| AWS a1.medium                       |                          |                           |
+| AWS c4.large                        |                          |                           |
+| AWS c5.large                        |                          |                           |
 
 ### nnr 4 4 12
 
