@@ -1,4 +1,4 @@
-CPP_SRC += src/nnr.cpp
+#CPP_SRC += src/nnr.cpp
 CPP_SRC += src/sequence.cpp
 CPP_SRC += src/test.cpp
 #CPP_SRC += main.cpp
