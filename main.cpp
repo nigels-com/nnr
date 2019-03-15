@@ -526,9 +526,15 @@ int main(int argc,char *argv[])
     cout << "NNR Size: "       << NNRsize(n,l) << endl;
     cout << "NNR Partitions: " << NNRpartitions(n,l) << endl;
 
+#if 1
+    NNRprintSequences(n, l);
+#else
     NNRtest(n, l, test);
+#endif
 
     cout << endl;
 
+    cout << "Total tests:" << test.testCount() << endl;
+    
     return 1;
 }

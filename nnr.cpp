@@ -2,13 +2,9 @@
 
 #include <cmath>
 #include <cassert>
+#include <sstream>
 #include <iostream>
 using namespace std;
-
-// #ifdef USING_PURENUM
-
-typedef PesInteger  Integer;
-typedef PesSequence Sequence;
 
 template<typename T>
 T fac(const T n)
@@ -21,6 +17,7 @@ T fac(const T n)
 
 //
 // Calculate the size of NNR search-space
+// (The number of NNR sequences of a particular length)
 //
 // Uses the recursive definition that:
 //
@@ -40,9 +37,8 @@ T fac(const T n)
 
 // This algorithm requires O(nL) time,
 // O(n) storage.
-//
 
-uint64_t NNRsize(const uint64_t n,const uint64_t length)
+uint64_t NNRsize(const uint64_t n, const uint64_t length)
 {
     if (length<n || n<1 || length<1)
         return 0;
@@ -80,13 +76,13 @@ uint64_t NNRsize(const uint64_t n,const uint64_t length)
 }
 
 //
-// NNR sequences can be broken into segments, according to
+// NNR sequences are composed of segments, according to
 // the position of the first occurance of each element:
 // a,b,c,...
 //
-// The first segment contains a's.
-// The second segment begins with b and contains a's and b's.
-// The third segment begins with c and contains a's, b's and c's..
+// The first segment consists of a single a
+// The second segment begins with b and consists of a's and b's
+// The third segment begins with c and consists of a's, b's and c's
 //
 // Denote segment length as A,B,C...
 //
@@ -111,44 +107,35 @@ uint64_t NNRsize(const uint64_t n,const uint64_t length)
 uint64_t
 NNRpartitions(const uint64_t n, const uint64_t length)
 {
-    uint64_t x = 1;
-    uint64_t y = 1;
-    uint64_t z = 1;
-
-    if (length>1)   x = fac(length-1);
-    if (n>1)        y = fac(n-1);
-    if (length-n>1) z = fac(length-n);
-
+    const uint64_t x = length>1   ? fac(length-1) : 1;
+    const uint64_t y = n>1        ? fac(n-1)      : 1;
+    const uint64_t z = length-n>1 ? fac(length-n) : 1;
     return x/(y*z);
 }
 
 // Determine the i'th partition
 //
 // Output the size of each segment
-//
-// Note that some partitions begin with an a segment
-// greater than 1, resulting in not a strictly NNR
-// sequence
 
-uint32v NNRpartition(const uint64_t n,const uint64_t length,const PesInteger &i)
+uint32v NNRpartition(const uint64_t n, const uint64_t length, const uint64_t i)
 {
-    assert(n>0);        // n must be positive integer
-    assert(length>0);   // length must be positive integer
+    assert(n>0);        // n must be positive uint64_t
+    assert(length>0);   // length must be positive uint64_t
     assert(length>=n);  // must be longer than n to fit all elements
 
     // Check that requested patition is in range
 
     #ifndef NDEBUG
-    PesInteger parts = NNRpartitions(n,length);
+    uint64_t parts = NNRpartitions(n, length);
     assert(i<=parts);
     #endif
 
     //
 
-    uint64_t idx(i);
+    uint64_t idx = i;
 
-    uint64_t _n=n;
-    uint64_t _length=length;
+    uint64_t _n = n;
+    uint64_t _length = length;
 
     // Output vector
 
@@ -156,7 +143,7 @@ uint32v NNRpartition(const uint64_t n,const uint64_t length,const PesInteger &i)
 
     while (_n>1)
     {
-        // Choice is contrained by the number of free slots,
+        // Choice is constrained by the number of free slots,
         // those not occupied by first a,b,c,...
 
         uint64_t choices = _length-_n+1;
@@ -225,9 +212,11 @@ uint32v NNRpartition(const uint64_t n,const uint64_t length,const PesInteger &i)
 uint64_t
 NNRpartitionSize(const std::vector<uint32_t> &p)
 {
+    cout << "Segments: " << NNRprintPartition(p) << endl;
+
     uint64_t size = 1;
-    for (size_t i=1; i<p.size(); i++)
-        size *= pow(Integer(i),Integer(p[i]-1));
+    for (size_t i=2; i<p.size(); i++)
+        size *= pow(uint64_t(i),uint64_t(p[i]-1));
 
     return size;
 }
@@ -236,21 +225,21 @@ NNRpartitionSize(const std::vector<uint32_t> &p)
 // Determine the i'th sequence of a particular NNR partition
 //
 
-Sequence
-NNRsequence(const std::vector<uint32_t> &p, const Integer &i)
+PesSequence
+NNRsequence(const std::vector<uint32_t> &p, const uint64_t i)
 {
     assert(p.size()>0);
 
 	// idx is used to choose elements in each segment
-    Integer idx(i);
+    uint64_t idx = i;
 
 	// Output sequence
-    Sequence seq(p.size());
+    PesSequence seq(p.size());
 
     // For each segment...
     for (uint32_t j=0; j<p.size(); j++)
     {
-        // Each segment begins with n'th element
+        // Each segment begins with j'th element
         seq.push_back(j);
 
 		// First segment can only have length of one
@@ -278,28 +267,28 @@ NNRsequence(const std::vector<uint32_t> &p, const Integer &i)
 // Determine the i'th NNR sequence, based on partitions
 //
 
-Sequence
-NNRsequence(const uint32_t n, const uint32_t length, const PesInteger &index)
+PesSequence
+NNRsequence(const uint32_t n, const uint32_t length, const uint64_t index)
 {
-    PesInteger idx(index);
+    uint64_t idx = index;
 
     // Try each partition, keeping first segment
     // size one...
 
-    PesInteger partitions = NNRpartitions(n-1,length-1);
+    uint64_t partitions = NNRpartitions(n-1, length-1);
 
-    for (PesInteger i = 0; i<partitions ; i++ )
+    for (uint64_t i = 0; i<partitions ; i++ )
     {
         // Determine segments in i'th partition
-        uint32v    part = NNRpartition(n,length,i);
+        uint32v   part = NNRpartition(n, length, i);
         // Determine size of i'th partition
-        PesInteger size = NNRpartitionSize(part);
+        uint64_t size = NNRpartitionSize(part);
 
         // If idx is in range, generate sequence,
         // otherwise keep looking...
 
         if (idx<size)
-            return NNRsequence(part,idx);
+            return NNRsequence(part, idx);
         else
             idx -= size;
     }
@@ -307,7 +296,7 @@ NNRsequence(const uint32_t n, const uint32_t length, const PesInteger &index)
     // Shouldn't get here
     assert(0);
 
-    return Sequence(n);
+    return PesSequence(n);
 }
 
 /////////////////////////////////////////
@@ -323,17 +312,26 @@ void NNRtest(const uint64_t n, const uint64_t length, PesTest &test)
     uint64_t partitions = NNRpartitions(n-1,length-1);
 
     // All partitions
-    for (uint64_t i=0; i<partitions; i+=1 )
+    for (uint64_t i=0; i<partitions; ++i)
         NNRtest(n, length, test, i);
 }
 
-void NNRtest(const uint64_t n, const uint64_t length, PesTest &test, const PesInteger &part)
+void NNRtest(const uint64_t n, const uint64_t length, PesTest &test, const uint64_t part)
 {
-    uint32v  seg  = NNRpartition(n,length,part);
+    cout << "Partition: " << part << endl;
+
+    uint32v  seg  = NNRpartition(n, length, part);
     uint64_t size = NNRpartitionSize(seg);
 
-    for (uint64_t j=0; j<size; j+=1)
+    cout << "Partition: " << part << " Size: " << size << " Seqments: " << NNRprintPartition(seg) << endl;
+    NNRprintPartition(seg);
+
+    for (uint64_t j=0; j<size; ++j)
+    {
         test.test(NNRsequence(seg, j));
+    }
+
+    cout << "Done" << endl;
 }
 
 /////////////////////////////////////////
@@ -343,14 +341,27 @@ void NNRtest(const uint64_t n, const uint64_t length, PesTest &test, const PesIn
 void
 NNRprintSequences(const uint64_t n, const uint64_t length)
 {
-    uint64_t i    = 0;
-    uint64_t size = NNRsize(n,length);
-
-    for (;i<size; i++)
+    const uint64_t size = NNRsize(n,length);
+    for (uint64_t i = 0; i<size; i++)
     {
-        Sequence seq = NNRsequence(n, length, i);
-        cout << seq << endl;
+        cout << NNRsequence(n, length, i) << endl;
     }
+}
+
+std::string
+NNRprintPartition(const uint32v & p)
+{
+    std::ostringstream os;
+
+    os << "{ ";
+    for (size_t k=0; k<p.size(); k++)
+    {
+        if (k>0)
+            os << ',';
+        os << p[k];
+    }
+    os << " }";
+    return os.str();
 }
 
 void
@@ -377,7 +388,7 @@ NNRprintPartitions(const uint64_t n, const uint64_t length)
 
         for (uint64_t j=0; j<pSize; j++)
         {
-            Sequence seq = NNRsequence(p,j);
+            PesSequence seq = NNRsequence(p,j);
             cout << seq << endl;
         }
     }
