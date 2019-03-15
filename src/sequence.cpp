@@ -715,8 +715,8 @@ void displayString(const PesSequence &str)
 //
 
 
-ulong
-factorial(const ulong n)
+uint64_t
+factorial(const uint64_t n)
 {
     ulong fact = 1;
 
@@ -726,8 +726,8 @@ factorial(const ulong n)
     return fact;
 }
 
-ulong
-power(const ulong a,const ulong b)
+uint64_t
+power(const uint64_t a,const uint64_t b)
 {
     if (b==0)
         return 1;
