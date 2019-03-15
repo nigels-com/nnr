@@ -1,6 +1,22 @@
 # nnr
+
 Normalised No-Repeat (NNR) sequences
 
+# CLI Tools
+
+| Command | Parameters | Description                                    |
+| ------- | ---------- | ---------------------------------------------- |
+| nnr     | n l        | Output the NNR sequences of *n* for length *l* |
+| pes     | n          | Filter the input sequences for PES of *n*      |
+
+# Scripts
+
+| Command   | Parameters | Description              | Output                    |
+| --------- | ---------- | ------------------------ | ------------------------- |
+| (nnr2.sh) |            | Filter NNR *n=2* for PES | *a*                       |
+| (nnr3.sh) |            | Filter NNR *n=3* for PES | *aba*                     |
+| (nnr4.sh) |            | Filter NNR *n=4* for PES | *abcabac* ...             |
+| (nnr5.sh) |            | Filter NNR *n=5* for PES | *abcdeabcdaebcadbcea* ... |
 
 ## AWS Benchmarks
 

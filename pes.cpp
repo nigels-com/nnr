@@ -1,39 +1,32 @@
+// parameters: n
 //
-// parameters: n l
-//
-// k is the size of the alphabet
 // n is the size of the alphabet
-// l is the length of the sequences
 
 #include <iostream>
 #include <string>
 #include <cassert>
 
-#include "nnr.h"
+#include "test.h"
 
 using namespace std;
 
 int main(int argc, char *argv[])
 {
-    if (argc!=4)
+    if (argc!=2)
     {
-        cerr << argv[0] << " k n l" << endl;
+        cerr << argv[0] << " n" << endl;
         return EXIT_FAILURE;
     }
 
-    int k = atoi(argv[1]);
-    int n = atoi(argv[2]);
-    int l = atoi(argv[3]);
+    int n = atoi(argv[1]);
 
     #ifndef NDEBUG
-    cerr << "k = " << k << endl;
     cerr << "n = " << n << endl;
-    cerr << "l = " << l << endl;
     cerr << endl;
     #endif
 
     PesTest test(STRING_TEST_ALL_BY_DECIMATION);
-    test.criteria() = PesSequence::permutations(n, k);
+    test.criteria() = PesSequence::permutations(n);
 
     while (true)
     {
