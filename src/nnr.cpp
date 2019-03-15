@@ -212,7 +212,7 @@ uint32v NNRpartition(const uint64_t n, const uint64_t length, const uint64_t i)
 uint64_t
 NNRpartitionSize(const std::vector<uint32_t> &p)
 {
-    cout << "Segments: " << NNRprintPartition(p) << endl;
+    cerr << "Segments: " << NNRprintPartition(p) << endl;
 
     uint64_t size = 1;
     for (size_t i=2; i<p.size(); i++)

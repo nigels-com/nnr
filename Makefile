@@ -1,7 +1,9 @@
-CPP_SRC += nnr.cpp
-CPP_SRC += sequence.cpp
-CPP_SRC += test.cpp
-CPP_SRC += main.cpp
+CPP_SRC += src/nnr.cpp
+CPP_SRC += src/sequence.cpp
+CPP_SRC += src/test.cpp
+#CPP_SRC += main.cpp
+
+CPP_FLAGS += -Isrc
 
 ifdef DEBUG
 CPP_FLAGS += -g
@@ -9,14 +11,14 @@ else
 CPP_FLAGS += -O3
 endif
 
-nnr: Makefile $(CPP_SRC)
-	g++ $(CPP_SRC) ${CPP_FLAGS} -o $@
+nnr: nnr.cpp Makefile $(CPP_SRC)
+	g++ $(CPP_SRC) $< ${CPP_FLAGS} -o $@
 
 default: nnr
 
 all: default
 
 clean:
-	rm nnr
+	rm -f nnr
 
 .PHONY: default clean all
