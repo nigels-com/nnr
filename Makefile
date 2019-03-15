@@ -11,10 +11,13 @@ else
 CPP_FLAGS += -O3 -DNDEBUG
 endif
 
+default: nnr pes
+
 nnr: nnr.cpp Makefile $(CPP_SRC)
 	g++ $(CPP_SRC) $< ${CPP_FLAGS} -o $@
 
-default: nnr
+pes: pes.cpp Makefile $(CPP_SRC)
+	g++ $(CPP_SRC) $< ${CPP_FLAGS} -o $@
 
 all: default
 

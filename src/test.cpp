@@ -135,7 +135,9 @@ PesTest::addAccepted(const PesSequence &str)
 
     _accepted.push_back(str);
 
+    #ifndef NDEBUG
     displayString(str);
+    #endif
 }
 
 void

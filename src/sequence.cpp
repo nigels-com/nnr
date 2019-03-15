@@ -695,19 +695,19 @@ ostream &operator<<(ostream &os,vector<PesSequence> &str)
 
 void displayString(const PesSequence &str)
 {
-    cout << str;
+    cerr << str;
 
     // Output length
 
-    cout << " (" << str.size() << ")";
+    cerr << " (" << str.size() << ")";
 
     // Output in normalised form
 
     PesSequence n = str.normalise();
     if (n!=str)
-        cout << " -> " << n;
+        cerr << " -> " << n;
 
-    cout << endl;
+    cerr << endl;
 }
 
 //
