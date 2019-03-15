@@ -16,7 +16,7 @@ using namespace std;
 
 bool PesSequence::asAlpha = true;
 
-PesSequence::PesSequence(const ulong n,const ulong l)
+PesSequence::PesSequence(const uint64_t n,const uint64_t l)
 : _n(n)
 {
     reserve(l+n);
@@ -54,7 +54,7 @@ PesSequence::PesSequence(istream &is)
     read(is);
 }
 
-ulong PesSequence::base() const { return _n; }
+uint64_t PesSequence::base() const { return _n; }
 
 //
 // IO
