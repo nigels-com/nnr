@@ -22,9 +22,11 @@ int main(int argc, char *argv[])
     int n = atoi(argv[1]);
     int l = atoi(argv[2]);
 
+    #ifndef NDEBUG
     cerr << "n = " << n << endl;
     cerr << "l = " << l << endl;
     cerr << endl;
+    #endif
 
     NNRprintSequences(n, l);
 

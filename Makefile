@@ -8,7 +8,7 @@ CPP_FLAGS += -Isrc
 ifdef DEBUG
 CPP_FLAGS += -g
 else
-CPP_FLAGS += -O3
+CPP_FLAGS += -O3 -DNDEBUG
 endif
 
 nnr: nnr.cpp Makefile $(CPP_SRC)
