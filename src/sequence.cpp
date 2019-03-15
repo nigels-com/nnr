@@ -247,7 +247,7 @@ PesSequence::operator+=(const PesSequence &b)
 // Offset each element
 
 PesSequence
-PesSequence::operator+ (const ulong &x)
+PesSequence::operator+ (const uint64_t x)
 {
     PesSequence out(*this);
     for (uint i=0; i<out.size(); i++)
@@ -256,7 +256,7 @@ PesSequence::operator+ (const ulong &x)
 }
 
 PesSequence &
-PesSequence::operator+=(const ulong &x)
+PesSequence::operator+=(const uint64_t x)
 {
     _n += x;            // REVISIT
 
@@ -296,7 +296,7 @@ PesSequence::insideByDecimation(const PesSequence &str) const
 }
 
 bool
-PesSequence::insideByDecimation(const ulong x) const
+PesSequence::insideByDecimation(const uint64_t x) const
 {
     for (uint i=0; i<size(); i++)
         if ((*this)[i]==x)
@@ -376,7 +376,7 @@ PesSequence::rotateRight() const
 }
 
 PesSequence
-PesSequence::skipNth(const uint pos) const
+PesSequence::skipNth(const uint32_t pos) const
 {
     PesSequence out(_n);
 
@@ -388,7 +388,7 @@ PesSequence::skipNth(const uint pos) const
 }
 
 PesSequence
-PesSequence::random(const uint n,const uint l)
+PesSequence::random(const uint32_t n,const uint32_t l)
 {
     PesSequence out(n);
 
@@ -399,7 +399,7 @@ PesSequence::random(const uint n,const uint l)
 }
 
 PesSequence
-PesSequence::randomNoDup(const uint n,const uint l)
+PesSequence::randomNoDup(const uint32_t n,const uint32_t l)
 {
     PesSequence out(n,l);
 
@@ -416,7 +416,7 @@ PesSequence::randomNoDup(const uint n,const uint l)
 }
 
 PesSequence 
-PesSequence::adleman74(const ulong n)
+PesSequence::adleman74(const uint64_t n)
 {
     assert(n>=3);
 
@@ -457,7 +457,7 @@ PesSequence::adleman74(const ulong n)
 }
 
 PesSequence 
-PesSequence::galbiati76(const ulong n)
+PesSequence::galbiati76(const uint64_t n)
 {
     assert(n>=4);
 
@@ -495,7 +495,7 @@ PesSequence::galbiati76(const ulong n)
 }
 
 PesSequence 
-PesSequence::savage82(const ulong n,const ulong k)
+PesSequence::savage82(const uint64_t n,const uint64_t k)
 {
     assert(n>=3 && k>=3);
 
@@ -543,7 +543,7 @@ PesSequence::savage82(const ulong n,const ulong k)
 }
 
 PesSequence
-PesSequence::permutation(const ulong n,const ulong p,const ulong k)
+PesSequence::permutation(const uint64_t n,const uint64_t p,const uint64_t k)
 {
     //
     // Check that k is not too large
@@ -589,7 +589,7 @@ PesSequence::permutation(const ulong n,const ulong p,const ulong k)
 }
 
 vector<PesSequence>
-PesSequence::permutations(const ulong n,const ulong k)
+PesSequence::permutations(const uint64_t n,const uint64_t k)
 {
     //
     // Default behaviour is when k
@@ -631,7 +631,7 @@ PesSequence::permutations(const ulong n,const ulong k)
 }
 
 PesSequence
-PesSequence::transposition(const uint a,const uint b) const
+PesSequence::transposition(const uint32_t a,const uint32_t b) const
 {
     PesSequence out = *this;
 

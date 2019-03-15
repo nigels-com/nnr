@@ -48,8 +48,8 @@ public:
 
     // Offset each element
 
-    PesSequence  operator+ (const uint64_t &x);
-    PesSequence &operator+=(const uint64_t &x);
+    PesSequence  operator+ (const uint64_t x);
+    PesSequence &operator+=(const uint64_t x);
 
     //
     // Is another string contained by 'decimation'?
