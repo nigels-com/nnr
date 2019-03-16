@@ -5,7 +5,7 @@
 // l is the length of the sequences
 
 // Permutation Embedding Sequences (PES)
-// 
+//
 // PES embed permutations. A sequence is said to be embedded
 // if it can be formed by removing other entries. For example,
 // the sequences ab and ac are embedded in abc.
@@ -357,10 +357,22 @@ int main(int argc, char *argv[])
     #endif
 
     const uint64_t size = NNRsize(n, l);
-    for (uint64_t i = 0; i<size; ++i)
+    const uint64_t partitions = NNRpartitions(n-1, l-1);
+
+    uint64_t i = 0; // NNR sequence index
+    for (uint64_t j = 0; j<partitions; ++j)
     {
-        cout << NNRsequence(n, l, i) << endl;
+        // Determine segments in j'th partition
+        const std::vector<uint32_t> part = NNRpartition(n, l, j);
+        // Determine size of j'th partition
+        const uint64_t size = NNRpartitionSize(part);
+        for (uint64_t k = 0; k<size; k++, ++i)
+        {
+            cout << NNRsequence(part, k) << endl;
+        }
     }
+
+    assert(i==size);
 
     return EXIT_SUCCESS;
 }
