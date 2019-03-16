@@ -1,5 +1,7 @@
 # nnr
 
+[![Build Status](https://travis-ci.org/nigels-com/nnr.svg?branch=master)](https://travis-ci.org/nigels-com/nnr)
+
 # Concepts
 
 ## Permutations

@@ -4,7 +4,9 @@
 
 #include <iostream>
 #include <string>
+
 #include <cassert>
+#include <cstdint>
 
 #include "test.h"
 

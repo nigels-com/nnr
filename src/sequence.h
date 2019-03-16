@@ -4,6 +4,8 @@
 #include <string>
 #include <iosfwd>
 
+#include <cstdint>
+
 uint64_t factorial(const uint64_t n);
 uint64_t power(const uint64_t a,const uint64_t b);
 

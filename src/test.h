@@ -2,6 +2,7 @@
 
 #include <vector>
 #include <iosfwd>
+#include <cstdint>
 
 #include "sequence.h"
 
