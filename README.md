@@ -15,12 +15,15 @@ Neither ba or ca are embedded in abc.
 
 Example: cabcabc embeds all permutations of a, b and c
 
-  *abc***
-  *a*c*b*
-  **b*a*c
-  **bca**
-  cab****
-  c*b*a**
+| ---------- |
+| `cabcabc`  |
+| -----------|
+| `*abc***`  |
+| `*a*c*b*`  |
+| `**b*a*c`  |
+| `**bca**`  |
+| `cab****`  |
+| `c*b*a**`  |
 
 ## Normalised No Repeat (NNR) Sequences
 
