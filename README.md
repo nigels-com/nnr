@@ -80,8 +80,20 @@ Constructive Solid Geometry, May 2008
 | Target                              | Time                     | Relative Time             |
 | ----------------------------------- | ------------------------ | ------------------------- |
 | Pentium 4 2Ghz                      | 12h                      | 1.0                       |
-| Intel® Core™ i5-2500K CPU @ 3.30GHz |                          | 1.0                       |
+| Intel® Core™ i5-2500K CPU @ 3.30GHz |                          |                           |
 | Raspberry Pi 3 Model B+             |                          |                           |
+| AWS a1.medium                       |                          |                           |
+| AWS c4.large                        |                          |                           |
+| AWS c5.large                        |                          |                           |
+
+### nnr5_4.sh
+
+    $ /usr/bin/time -v ./nnr5.sh
+
+| Target                              | Time                     | Relative Time             |
+| ----------------------------------- | ------------------------ | ------------------------- |
+| Intel® Core™ i5-2500K CPU @ 3.30GHz |  35.19s                  |  1.0                      |
+| Raspberry Pi 3 Model B+             | 396.50s                  | 11.2                      |
 | AWS a1.medium                       |                          |                           |
 | AWS c4.large                        |                          |                           |
 | AWS c5.large                        |                          |                           |
