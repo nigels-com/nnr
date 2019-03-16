@@ -10,4 +10,4 @@
 # abacbab
 # abacaba
 
-./nnr 3 7 | ./pes 3
+./nnr -n 3 -l 7 | ./pes 3

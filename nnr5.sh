@@ -2,14 +2,6 @@
 
 # Expected output:
 #
-# abcdbacbdabc
-# abcdbacbdcab
-# abcdacbadcab
-# abcdabcadbca
-# abcdacbadbca
-# abcdabcadbac
-# abcdbacbdacb
-# abcdabcadcba
-# abcdacbadcba
+# TODO
 
-./nnr 5 19 | ./pes 5
+./nnr -n 5 -l 19 | ./pes 5

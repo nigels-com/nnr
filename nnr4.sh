@@ -12,4 +12,4 @@
 # abcdabcadcba
 # abcdacbadcba
 
-./nnr 4 12 | ./pes 4
+./nnr -n 4 -l 12 | ./pes 4

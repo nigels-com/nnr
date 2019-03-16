@@ -4,4 +4,4 @@
 #
 # aba
 
-./nnr 2 3 | ./pes 2
+./nnr -n 2 -l 3 | ./pes 2
