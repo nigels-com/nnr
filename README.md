@@ -54,6 +54,13 @@ PhD Thesis, Chapter 5
 N. Stewart, An Image-Space Algorithm for Hardware-Based Rendering of
 Constructive Solid Geometry, May 2008
 
+# Build
+
+## AWS Linux
+
+    $ sudo yum groupinstall "Development Tools"
+    $ make
+
 # CLI Tools
 
 | Command | Parameters | Description                                    |
@@ -88,15 +95,15 @@ Constructive Solid Geometry, May 2008
 
 ### nnr5_4.sh
 
-    $ /usr/bin/time -v ./nnr5.sh
+    $ /usr/bin/time -v ./nnr5_4.sh
 
-| Target                              | Time                     | Relative Time             |
-| ----------------------------------- | ------------------------ | ------------------------- |
-| Intel® Core™ i5-2500K CPU @ 3.30GHz |  35.19s                  |  1.0                      |
-| Raspberry Pi 3 Model B+             | 396.50s                  | 11.2                      |
-| AWS a1.medium                       |                          |                           |
-| AWS c4.large                        |                          |                           |
-| AWS c5.large                        |                          |                           |
+| Target                              | Time    | Relative Time  |
+| ----------------------------------- | ------- | -------------- |
+| Intel® Core™ i5-2500K CPU @ 3.30GHz |  35.19s |  1.0           |
+| Raspberry Pi 3 Model B+             | 396.50s | 11.2           |
+| AWS a1.medium                       | 163.29s |  4.7           |
+| AWS c4.large                        |         |                |
+| AWS c5.large                        |  49.09s |  1.4           |
 
 ### nnr 4 4 12
 
