@@ -4,6 +4,10 @@ install:
 compiler:
   - clang
   - gcc
+env:
+    matrix:
+        - DEBUG=1
+        - 
 script:
   - make
 addons:
