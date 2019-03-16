@@ -254,10 +254,6 @@ inline std::vector<uint32_t> NNRpartition(const uint64_t n, const uint64_t lengt
 uint64_t
 NNRpartitionSize(const std::vector<uint32_t> &p)
 {
-    #ifndef NDEBUG
-    cerr << "Segments: " << NNRprintPartition(p) << endl;
-    #endif
-
     uint64_t size = 1;
     for (size_t i=2; i<p.size(); i++)
         size *= pow(uint64_t(i),uint64_t(p[i]-1));

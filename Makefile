@@ -4,6 +4,7 @@ CPP_SRC += src/test.cpp
 #CPP_SRC += main.cpp
 
 CPP_FLAGS += -Isrc
+CPP_FLAGS += -std=c++11
 
 ifdef DEBUG
 CPP_FLAGS += -g
