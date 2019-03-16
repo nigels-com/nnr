@@ -15,7 +15,6 @@ Neither ba or ca are embedded in abc.
 
 Example: cabcabc embeds all permutations of a, b and c
 
-| ---------- |
 | `cabcabc`  |
 | -----------|
 | `*abc***`  |
