@@ -15,14 +15,14 @@ Neither ba or ca are embedded in abc.
 
 Example: cabcabc embeds all permutations of a, b and c
 
-| `cabcabc`  |
-| -----------|
-| `*abc***`  |
-| `*a*c*b*`  |
-| `**b*a*c`  |
-| `**bca**`  |
-| `cab****`  |
-| `c*b*a**`  |
+|       | `cabcabc`  |
+| ----- | -----------|
+| `abc` | `*abc***`  |
+| `acb` | `*a*c*b*`  |
+| `bac` | `**b*a*c`  |
+| `bca` | `**bca**`  |
+| `cab` | `cab****`  |
+| `cba` | `c*b*a**`  |
 
 ## Normalised No Repeat (NNR) Sequences
 
@@ -38,12 +38,14 @@ Examples:
 - abcabca is NNR
 - abcabca embeds all permutations of a, b and c
 
-  abc****
-  a*c*b**
-  *b*a*c*
-  *bca***
-  **cab**
-  **c*b*a
+|       | `abcabca`  |
+| ----- | -----------|
+| `abc` | `abc****`  |
+| `acb` | `a*c*b**`  |
+| `bac` | `*b*a*c*`  |
+| `bca` | `*bca***`  |
+| `cab` | `**cab**`  |
+| `cba` | `**c*b*a`  |
 
 ## Thesis
 
