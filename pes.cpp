@@ -8,19 +8,28 @@
 #include <cassert>
 #include <cstdint>
 
+#include <CLI11.hpp>
+
 #include "test.h"
 
 using namespace std;
 
 int main(int argc, char *argv[])
 {
-    if (argc!=2)
-    {
-        cerr << argv[0] << " n" << endl;
-        return EXIT_FAILURE;
-    }
+    int n = 1;
+    int k = -1;
 
-    int n = atoi(argv[1]);
+    CLI::App app{"pes - Permutation Embedding Sequences"};
+    app.add_option("-n,--n", n, "Alphabet size")->required();
+    app.add_option("-k,--k", k, "k");
+    try
+    {
+        app.parse(argc, argv);
+    }
+    catch (const CLI::ParseError &e)
+    {
+        return app.exit(e);
+    }
 
     #ifndef NDEBUG
     cerr << "n = " << n << endl;
@@ -28,7 +37,14 @@ int main(int argc, char *argv[])
     #endif
 
     PesTest test(STRING_TEST_ALL_BY_DECIMATION);
-    test.criteria() = PesSequence::permutations(n);
+    if (k>0)
+    {
+        test.criteria() = PesSequence::permutations(n, k);
+    }
+    else
+    {
+        test.criteria() = PesSequence::permutations(n);
+    }
 
     while (true)
     {

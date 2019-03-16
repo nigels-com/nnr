@@ -1,7 +1,5 @@
 #!/usr/bin/env bash
 
-# Expected output:
-#
 # TODO
 
-./nnr -n 5 -l 19 | ./pes 5
+./nnr -n 5 -l 19 | ./pes -n 5
