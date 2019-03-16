@@ -1,0 +1,11 @@
+language: cpp
+sudo: false
+install:
+script:
+- make
+addons:
+  apt:
+    packages:
+    - git
+  artifacts:
+    paths:

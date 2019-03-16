@@ -68,8 +68,12 @@ Constructive Solid Geometry, May 2008
 
 ### nnr5.sh
 
+> It takes a 2Ghz Pentium 4 around 12 hours to test all NNR sequences for n = 5, l = 19.
+> We estimate that searching all NNR sequences for n = 6, l = 27 would take around 100 years on the same machine.
+
 | Target                              | Time                     | Relative Time             |
 | ----------------------------------- | ------------------------ | ------------------------- |
+| Pentium 4 2Ghz                      | 12h                      | 1.0                       |
 | Intel® Core™ i5-2500K CPU @ 3.30GHz |                          | 1.0                       |
 | Raspberry Pi 3 Model B+             |                          |                           |
 | AWS a1.medium                       |                          |                           |
