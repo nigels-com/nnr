@@ -295,7 +295,8 @@ NNRsequence(const std::vector<uint32_t> &p, const uint64_t l, const uint64_t i, 
                 uint32_t c = idx%j;
 
                 // No repeats, based on previous entry
-                sequence[o++] = (sequence[o-1]+1+c)%(j+1);
+                sequence[o] = (sequence[o-1]+1+c)%(j+1);
+                o++;
 
                 // Adjust idx
                 idx /= j;
