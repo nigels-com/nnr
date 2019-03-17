@@ -15,7 +15,7 @@ connection = pika.BlockingConnection(pika.ConnectionParameters(host='10.0.0.21',
 def exit():
     raise StopIteration()
 
-connection.add_timeout(2.0, exit)
+connection.add_timeout(10.0, exit)
 success = { False: 0, True: 0 }
 
 try:
