@@ -31,7 +31,7 @@ try:
         err = io.StringIO()
         print('Job: %s'%(body))
         start = time.time()
-        command = sh.bash(['-c', body], _out = out, _err = err, _done = done)
+        command = sh.bash(['-c', unicode(body, 'utf-8')], _out = out, _err = err, _done = done)
         end = time.time()
         ch.basic_ack(delivery_tag = method.delivery_tag)
         print(json.dumps({ 
