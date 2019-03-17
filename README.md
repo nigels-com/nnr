@@ -63,10 +63,34 @@ Constructive Solid Geometry, May 2008
 
 # CLI Tools
 
-| Command | Parameters | Description                                    |
-| ------- | ---------- | ---------------------------------------------- |
-| nnr     | n l        | Output the NNR sequences of *n* for length *l* |
-| pes     | n          | Filter the input sequences for PES of *n*      |
+## nnr
+
+Output _Normalised No Repeats_ sequences.
+
+    $ ./nnr -h
+    nnr - Normalised No Repeats
+    Usage: ./nnr [OPTIONS]
+
+    Options:
+      -h,--help                   Print this help message and exit
+      -n,--n INT REQUIRED         Alphabet size
+      -l,--l INT REQUIRED         Sequence length
+      -p,--partition INT          Limit output to specific partition
+      -s,--start UINT             Start at a specific sequence
+      -e,--end UINT               End at a specific sequence
+
+## pes
+
+Filter for _Permutation Embedding Sequences_.
+
+    $ ./pes -h
+    pes - Permutation Embedding Sequences
+    Usage: ./pes [OPTIONS]
+
+    Options:
+      -h,--help                   Print this help message and exit
+      -n,--n INT REQUIRED         Alphabet size
+      -k,--k INT                  k
 
 # Scripts
 

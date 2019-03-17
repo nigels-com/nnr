@@ -312,11 +312,15 @@ int main(int argc, char *argv[])
     int n = 1;
     int l = 1;
     int p = -1;
+    uint64_t start = 0;
+    uint64_t end = 0;
 
     CLI::App app{"nnr - Normalised No Repeats"};
     app.add_option("-n,--n", n, "Alphabet size")->required();
     app.add_option("-l,--l", l, "Sequence length")->required();
     app.add_option("-p,--partition", p, "Limit output to specific partition");
+    app.add_option("-s,--start", start, "Start at a specific sequence");
+    app.add_option("-e,--end", end, "End at a specific sequence");
     try
     {
         app.parse(argc, argv);
@@ -331,6 +335,8 @@ int main(int argc, char *argv[])
     cerr << "l = " << l << endl;
     cerr << endl;
     #endif
+
+    // Output a specific partition
 
     if (p>=0)
     {
@@ -347,30 +353,59 @@ int main(int argc, char *argv[])
             NNRsequence(part, l, i, seq);
             cout << seq << endl;
         }
+        return EXIT_SUCCESS;
     }
-    else
+
+    const uint64_t size = NNRsize(n, l);
+    const uint64_t partitions = NNRpartitions(n-1, l-1);
+
+    uint64_t i = 0; // NNR sequence index
+    PesSequence seq;
+
+    // Output from start to end
+
+    if (start>=0 && end>0)
     {
-        const uint64_t size = NNRsize(n, l);
-        const uint64_t partitions = NNRpartitions(n-1, l-1);
-
-        uint64_t i = 0; // NNR sequence index
-        PesSequence seq;
-
         for (uint64_t j = 0; j<partitions; ++j)
         {
             // Determine segments in j'th partition
             const std::vector<uint32_t> part = NNRpartition(n, l, j);
             // Determine size of j'th partition
             const uint64_t size = NNRpartitionSize(part);
-            for (uint64_t k = 0; k<size; k++, ++i)
+            if (i+size <= start)
             {
-                NNRsequence(part, l, k, seq);
-                cout << seq << endl;
+                i += size;
+                continue;
+            }
+            for (uint64_t k = 0; k<size && i<end; ++k, ++i)
+            {
+                if (i>=start)
+                {
+                    NNRsequence(part, l, k, seq);
+                    cout << seq << endl;
+                }
             }
         }
 
-        assert(i==size);
+        return EXIT_SUCCESS;
     }
+
+    // Output everything
+
+    for (uint64_t j = 0; j<partitions; ++j)
+    {
+        // Determine segments in j'th partition
+        const std::vector<uint32_t> part = NNRpartition(n, l, j);
+        // Determine size of j'th partition
+        const uint64_t size = NNRpartitionSize(part);
+        for (uint64_t k = 0; k<size; k++, ++i)
+        {
+            NNRsequence(part, l, k, seq);
+            cout << seq << endl;
+        }
+    }
+
+    assert(i==size);
 
     return EXIT_SUCCESS;
 }
