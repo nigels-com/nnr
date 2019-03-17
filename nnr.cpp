@@ -333,6 +333,11 @@ int main(int argc, char *argv[])
     #ifndef NDEBUG
     cerr << "n = " << n << endl;
     cerr << "l = " << l << endl;
+    if (start>=0 && end>0)
+    {
+        cerr << "start=" << start << endl;    
+        cerr << "end=" << end << endl;
+    }
     cerr << endl;
     #endif
 
@@ -359,6 +364,10 @@ int main(int argc, char *argv[])
     const uint64_t size = NNRsize(n, l);
     const uint64_t partitions = NNRpartitions(n-1, l-1);
 
+    #ifndef NDEBUG
+    cerr << "size = " << size << " partitions = " << partitions << endl;
+    #endif
+
     uint64_t i = 0; // NNR sequence index
     PesSequence seq;
 
@@ -372,6 +381,11 @@ int main(int argc, char *argv[])
             const std::vector<uint32_t> part = NNRpartition(n, l, j);
             // Determine size of j'th partition
             const uint64_t size = NNRpartitionSize(part);
+
+            #ifndef NDEBUG
+            cerr << "partition = " << j << " size = " << size << endl;
+            #endif
+
             if (i+size <= start)
             {
                 i += size;

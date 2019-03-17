@@ -1,9 +1,13 @@
 #!/usr/bin/env python
 
+from __future__ import print_function
+
 import pika
 import sh
 import io
 import sys
+import json
+import time
 
 credentials = pika.PlainCredentials('test', 'test')
 connection = pika.BlockingConnection(pika.ConnectionParameters(host='10.0.0.21', credentials=credentials))
@@ -22,8 +26,19 @@ try:
         success[s] = success[s]+1
 
     def callback(ch, method, properties, body):
-        sh.bash(['-c',body], _out = sys.stdout, _done = done)
+        out = io.StringIO()
+        err = io.StringIO()
+        print('Job: %s'%(body))
+        start = time.time()
+        command = sh.bash(['-c', body], _out = out, _err = err, _done = done)
+        end = time.time()
         ch.basic_ack(delivery_tag = method.delivery_tag)
+        print(json.dumps({ 
+            "command" : body, 
+            "output": out.getvalue().splitlines(), 
+            "error": err.getvalue().splitlines(), 
+            "success": True, 
+            "time": round(end-start, 3) }))
 
     channel.basic_consume(callback, queue='worker')
     channel.start_consuming()
