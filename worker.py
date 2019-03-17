@@ -12,10 +12,10 @@ import time
 credentials = pika.PlainCredentials('test', 'test')
 connection = pika.BlockingConnection(pika.ConnectionParameters(host='10.0.0.21', credentials=credentials))
 
-def exit():
-    raise StopIteration()
+#def exit():
+#    raise StopIteration()
+#connection.add_timeout(10.0, exit)
 
-connection.add_timeout(10.0, exit)
 success = { False: 0, True: 0 }
 
 try:
@@ -44,5 +44,6 @@ try:
     channel.basic_consume(callback, queue='worker')
     channel.start_consuming()
 
-except StopIteration as e:
+#except StopIteration as e:
+except KeyboardInterrupt as e:
     print('%d jobs completed, %s succeeded'%(success[True]+success[False], success[True]))
