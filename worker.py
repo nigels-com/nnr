@@ -21,6 +21,7 @@ success = { False: 0, True: 0 }
 try:
     channel = connection.channel()
     channel.queue_declare(queue='worker')
+    channel.basic_qos(prefetch_count=1)
 
     def done(cmd, s, exit_code):
         success[s] = success[s]+1
