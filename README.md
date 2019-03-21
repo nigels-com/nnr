@@ -121,13 +121,14 @@ Filter for _Permutation Embedding Sequences_.
 
     $ /usr/bin/time -v ./nnr5_4.sh
 
-| Target                              | Time    | Relative Time  |
-| ----------------------------------- | ------- | -------------- |
-| Intel® Core™ i5-2500K CPU @ 3.30GHz |  35.19s |  1.0           |
-| Raspberry Pi 3 Model B+             | 396.50s | 11.2           |
-| AWS a1.medium                       | 163.29s |  4.7           |
-| AWS c4.large                        |         |                |
-| AWS c5.large                        |  49.09s |  1.4           |
+| Target                                | Time    | Relative Time  |
+| ------------------------------------- | ------- | -------------- |
+| Intel(R) Xeon(R) E3-1245 v5 @ 3.50GHz |  27.13s |  1.0
+| Intel® Core™ i5-2500K CPU @ 3.30GHz   |  29.83s |  1.1           |
+| AWS c5.large                          |  49.09s |                |
+| AWS c4.large                          |         |                |
+| AWS a1.medium                         | 163.29s |                |
+| Raspberry Pi 3 Model B+               | 396.50s |                |
 
 ### nnr 4 4 12
 
