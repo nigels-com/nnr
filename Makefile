@@ -26,6 +26,6 @@ pes: pes.cpp Makefile $(CPP_SRC)
 all: default
 
 clean:
-	rm -f nnr
+	rm -f nnr pes
 
 .PHONY: default clean all

@@ -40,15 +40,25 @@
 #include <vector>
 #include <iostream>
 
-#include <cmath>
 #include <cassert>
 #include <cstdint>
-
-#include "sequence.h"
 
 #include <CLI11.hpp>
 
 using namespace std;
+
+// Output sequence as alpha string
+
+std::ostream &
+operator<<(std::ostream &os, const std::vector<uint8_t> & str)
+{
+    string out;
+    out.resize(str.size());
+    size_t j = 0;
+    for (const auto i : str) out[j++] = 'a' + char(i);
+    os << out;
+    return os;
+}
 
 //
 // Calculate the size of NNR search-space
@@ -142,37 +152,37 @@ inline uint64_t NNRsize(const uint64_t n, const uint64_t length)
 static const size_t   factorialTableSize = 30;
 static const uint64_t factorialTable[1+factorialTableSize] =
 {
-    1u,
-    1u,
-    1u*2,
-    1u*2*3,
-    1u*2*3*4,
-    1u*2*3*4*5,
-    1u*2*3*4*5*6,
-    1u*2*3*4*5*6*7,
-    1u*2*3*4*5*6*7*8,
-    1u*2*3*4*5*6*7*8*9,
-    1u*2*3*4*5*6*7*8*9*10,
-    1u*2*3*4*5*6*7*8*9*10*11,
-    1u*2*3*4*5*6*7*8*9*10*11*12,
-    1u*2*3*4*5*6*7*8*9*10*11*12*13,
-    1u*2*3*4*5*6*7*8*9*10*11*12*13*14,
-    1u*2*3*4*5*6*7*8*9*10*11*12*13*14*15,
-    1u*2*3*4*5*6*7*8*9*10*11*12*13*14*15*16,
-    1u*2*3*4*5*6*7*8*9*10*11*12*13*14*15*16*17,
-    1u*2*3*4*5*6*7*8*9*10*11*12*13*14*15*16*17*18,
-    1u*2*3*4*5*6*7*8*9*10*11*12*13*14*15*16*17*18*19,
-    1u*2*3*4*5*6*7*8*9*10*11*12*13*14*15*16*17*18*19*20,
-    1u*2*3*4*5*6*7*8*9*10*11*12*13*14*15*16*17*18*19*20*21,
-    1u*2*3*4*5*6*7*8*9*10*11*12*13*14*15*16*17*18*19*20*21*22,
-    1u*2*3*4*5*6*7*8*9*10*11*12*13*14*15*16*17*18*19*20*21*22*23,
-    1u*2*3*4*5*6*7*8*9*10*11*12*13*14*15*16*17*18*19*20*21*22*23*24,
-    1u*2*3*4*5*6*7*8*9*10*11*12*13*14*15*16*17*18*19*20*21*22*23*24*25,
-    1u*2*3*4*5*6*7*8*9*10*11*12*13*14*15*16*17*18*19*20*21*22*23*24*25*26,
-    1u*2*3*4*5*6*7*8*9*10*11*12*13*14*15*16*17*18*19*20*21*22*23*24*25*26*27,
-    1u*2*3*4*5*6*7*8*9*10*11*12*13*14*15*16*17*18*19*20*21*22*23*24*25*26*27*28,
-    1u*2*3*4*5*6*7*8*9*10*11*12*13*14*15*16*17*18*19*20*21*22*23*24*25*26*27*28*29,
-    1u*2*3*4*5*6*7*8*9*10*11*12*13*14*15*16*17*18*19*20*21*22*23*24*25*26*27*28*29*30
+    1lu,
+    1lu,
+    1lu*2,
+    1lu*2*3,
+    1lu*2*3*4,
+    1lu*2*3*4*5,
+    1lu*2*3*4*5*6,
+    1lu*2*3*4*5*6*7,
+    1lu*2*3*4*5*6*7*8,
+    1lu*2*3*4*5*6*7*8*9,
+    1lu*2*3*4*5*6*7*8*9*10,
+    1lu*2*3*4*5*6*7*8*9*10*11,
+    1lu*2*3*4*5*6*7*8*9*10*11*12,
+    1lu*2*3*4*5*6*7*8*9*10*11*12*13,
+    1lu*2*3*4*5*6*7*8*9*10*11*12*13*14,
+    1lu*2*3*4*5*6*7*8*9*10*11*12*13*14*15,
+    1lu*2*3*4*5*6*7*8*9*10*11*12*13*14*15*16,
+    1lu*2*3*4*5*6*7*8*9*10*11*12*13*14*15*16*17,
+    1lu*2*3*4*5*6*7*8*9*10*11*12*13*14*15*16*17*18,
+    1lu*2*3*4*5*6*7*8*9*10*11*12*13*14*15*16*17*18*19,
+    1lu*2*3*4*5*6*7*8*9*10*11*12*13*14*15*16*17*18*19*20,
+    1lu*2*3*4*5*6*7*8*9*10*11*12*13*14*15*16*17*18*19*20*21,
+    1lu*2*3*4*5*6*7*8*9*10*11*12*13*14*15*16*17*18*19*20*21*22,
+    1lu*2*3*4*5*6*7*8*9*10*11*12*13*14*15*16*17*18*19*20*21*22*23,
+    1lu*2*3*4*5*6*7*8*9*10*11*12*13*14*15*16*17*18*19*20*21*22*23*24,
+    1lu*2*3*4*5*6*7*8*9*10*11*12*13*14*15*16*17*18*19*20*21*22*23*24*25,
+    1lu*2*3*4*5*6*7*8*9*10*11*12*13*14*15*16*17*18*19*20*21*22*23*24*25*26,
+    1lu*2*3*4*5*6*7*8*9*10*11*12*13*14*15*16*17*18*19*20*21*22*23*24*25*26*27,
+    1lu*2*3*4*5*6*7*8*9*10*11*12*13*14*15*16*17*18*19*20*21*22*23*24*25*26*27*28,
+    1lu*2*3*4*5*6*7*8*9*10*11*12*13*14*15*16*17*18*19*20*21*22*23*24*25*26*27*28*29,
+    1lu*2*3*4*5*6*7*8*9*10*11*12*13*14*15*16*17*18*19*20*21*22*23*24*25*26*27*28*29*30
 };
 
 template<typename T>
@@ -180,18 +190,39 @@ T fac(const T n)
 {
     if (n<=factorialTableSize)
         return factorialTable[n];
+
     T ret = factorialTable[factorialTableSize];
     for (T i = factorialTableSize+1; i <= n; ++i)
         ret *= i;
     return ret;
 }
 
+template<typename T>
+T pow(const T base, const T exponent)
+{
+  if (exponent == 0) return 1;
+  if (exponent == 1) return base;
+
+  T tmp = pow(base, exponent/2);
+
+  return exponent%2 == 0 ? tmp * tmp : base * tmp * tmp;
+}
+
 inline uint64_t
 NNRpartitions(const uint64_t n, const uint64_t length)
 {
-    const uint64_t x = length>1   ? fac(length-1) : 1;
-    const uint64_t y = n>1        ? fac(n-1)      : 1;
-    const uint64_t z = length-n>1 ? fac(length-n) : 1;
+    const uint64_t x = length>1   ? fac<uint64_t>(length-1) : 1;
+    const uint64_t y = n>1        ? fac<uint64_t>(n-1)      : 1;
+    const uint64_t z = length-n>1 ? fac<uint64_t>(length-n) : 1;
+
+    #ifndef NDEBUG
+    cerr << "x = " << x << endl;
+    cerr << "y = " << y << endl;
+    cerr << "z = " << z << endl;
+    cerr << "p = " << y*z << endl;
+    cerr << endl;
+    #endif
+
     return x/(y*z);
 }
 
@@ -297,7 +328,7 @@ NNRpartitionSize(const std::vector<uint32_t> &p)
 {
     uint64_t size = 1;
     for (size_t i=2; i<p.size(); i++)
-        size *= pow(uint64_t(i),uint64_t(p[i]-1));
+        size *= pow<uint64_t>(i, p[i]-1);
 
     return size;
 }
@@ -307,7 +338,7 @@ NNRpartitionSize(const std::vector<uint32_t> &p)
 //
 
 inline void
-NNRsequence(const std::vector<uint32_t> &p, const uint64_t l, const uint64_t i, PesSequence & sequence)
+NNRsequence(const std::vector<uint32_t> & p, const uint64_t l, const uint64_t i, std::vector<uint8_t> & sequence)
 {
     assert(p.size()>0);
 
@@ -389,7 +420,7 @@ int main(int argc, char *argv[])
             return EXIT_FAILURE;
         }
         const std::vector<uint32_t> part = NNRpartition(n, l, p);
-        PesSequence seq;
+        std::vector<uint8_t> seq;
         const uint64_t size = NNRpartitionSize(part);
         for (uint64_t i = 0; i<size; ++i)
         {
@@ -407,7 +438,7 @@ int main(int argc, char *argv[])
     #endif
 
     uint64_t i = 0; // NNR sequence index
-    PesSequence seq;
+    std::vector<uint8_t> seq;
 
     // Output from start to end
 
