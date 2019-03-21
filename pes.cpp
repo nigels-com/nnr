@@ -10,7 +10,7 @@
 
 #include <CLI11.hpp>
 
-#include "test.h"
+#include "sequence.h"
 
 using namespace std;
 
@@ -36,14 +36,14 @@ int main(int argc, char *argv[])
     cerr << endl;
     #endif
 
-    PesTest test(STRING_TEST_ALL_BY_DECIMATION);
+    std::vector<PesSequence> criteria;
     if (k>0)
     {
-        test.criteria() = PesSequence::permutations(n, k);
+        criteria = PesSequence::permutations(n, k);
     }
     else
     {
-        test.criteria() = PesSequence::permutations(n);
+        criteria = PesSequence::permutations(n);
     }
 
     while (true)
@@ -58,10 +58,16 @@ int main(int argc, char *argv[])
         #endif
 
         PesSequence s(line.c_str());
-        if (test.test(s))
-        {
-            cout << s << endl;
-        }
+        for (const auto & i : criteria)
+            if (!s.insideByDecimation(i))
+            {
+                goto fail;
+            }
+
+
+        cout << s << endl;
+fail:
+        continue;
     }
 
     return EXIT_SUCCESS;
