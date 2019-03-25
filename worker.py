@@ -2,48 +2,41 @@
 
 from __future__ import print_function
 
-import pika
+import time
+import zmq
+
 import sh
 import io
 import sys
 import json
 import time
 
-credentials = pika.PlainCredentials('test', 'test')
-connection = pika.BlockingConnection(pika.ConnectionParameters(host='10.0.0.21', credentials=credentials))
-
-#def exit():
-#    raise StopIteration()
-#connection.add_timeout(10.0, exit)
+context = zmq.Context()
+socket = context.socket(zmq.REQ)
+socket.connect("tcp://localhost:5555")
 
 success = { False: 0, True: 0 }
 
+def done(cmd, s, exit_code):
+    success[s] = success[s]+1
+
 try:
-    channel = connection.channel()
-    channel.queue_declare(queue='worker')
-    channel.basic_qos(prefetch_count=1)
-
-    def done(cmd, s, exit_code):
-        success[s] = success[s]+1
-
-    def callback(ch, method, properties, body):
+    while True:
+        socket.send('Request') # Request a job from the sender
+        body = socket.recv_string()
+        print('Job: %s'%(body))
         out = io.StringIO()
         err = io.StringIO()
-        print('Job: %s'%(body))
         start = time.time()
-        command = sh.bash(['-c', unicode(body, 'utf-8')], _out = out, _err = err, _done = done)
+        command = sh.bash(['-c', body], _out = out, _err = err, _done = done)
         end = time.time()
-        ch.basic_ack(delivery_tag = method.delivery_tag)
-        print(json.dumps({ 
+        result = { 
             "command" : body, 
             "output": out.getvalue().splitlines(), 
             "error": err.getvalue().splitlines(), 
             "success": True, 
-            "time": round(end-start, 3) }))
+            "time": round(end-start, 3) }
+        print(json.dumps(result))
 
-    channel.basic_consume(callback, queue='worker')
-    channel.start_consuming()
-
-#except StopIteration as e:
 except KeyboardInterrupt as e:
     print('%d jobs completed, %s succeeded'%(success[True]+success[False], success[True]))
