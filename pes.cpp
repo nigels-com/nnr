@@ -2,17 +2,218 @@
 //
 // n is the size of the alphabet
 
-#include <iostream>
+#include <vector>
 #include <string>
+#include <iostream>
 
 #include <cassert>
 #include <cstdint>
 
 #include <CLI11.hpp>
 
-#include "sequence.h"
-
 using namespace std;
+
+// Output sequence as alpha string
+
+inline std::ostream &
+operator<<(std::ostream &os, const std::vector<uint8_t> & str)
+{
+    string out;
+    out.resize(str.size());
+    size_t j = 0;
+    for (const auto i : str) out[j++] = 'a' + char(i);
+    os << out;
+    return os;
+}
+
+static const size_t   factorialTableSize = 30;
+static const uint64_t factorialTable[1+factorialTableSize] =
+{
+    1lu,
+    1lu,
+    1lu*2,
+    1lu*2*3,
+    1lu*2*3*4,
+    1lu*2*3*4*5,
+    1lu*2*3*4*5*6,
+    1lu*2*3*4*5*6*7,
+    1lu*2*3*4*5*6*7*8,
+    1lu*2*3*4*5*6*7*8*9,
+    1lu*2*3*4*5*6*7*8*9*10,
+    1lu*2*3*4*5*6*7*8*9*10*11,
+    1lu*2*3*4*5*6*7*8*9*10*11*12,
+    1lu*2*3*4*5*6*7*8*9*10*11*12*13,
+    1lu*2*3*4*5*6*7*8*9*10*11*12*13*14,
+    1lu*2*3*4*5*6*7*8*9*10*11*12*13*14*15,
+    1lu*2*3*4*5*6*7*8*9*10*11*12*13*14*15*16,
+    1lu*2*3*4*5*6*7*8*9*10*11*12*13*14*15*16*17,
+    1lu*2*3*4*5*6*7*8*9*10*11*12*13*14*15*16*17*18,
+    1lu*2*3*4*5*6*7*8*9*10*11*12*13*14*15*16*17*18*19,
+    1lu*2*3*4*5*6*7*8*9*10*11*12*13*14*15*16*17*18*19*20,
+    1lu*2*3*4*5*6*7*8*9*10*11*12*13*14*15*16*17*18*19*20*21,
+    1lu*2*3*4*5*6*7*8*9*10*11*12*13*14*15*16*17*18*19*20*21*22,
+    1lu*2*3*4*5*6*7*8*9*10*11*12*13*14*15*16*17*18*19*20*21*22*23,
+    1lu*2*3*4*5*6*7*8*9*10*11*12*13*14*15*16*17*18*19*20*21*22*23*24,
+    1lu*2*3*4*5*6*7*8*9*10*11*12*13*14*15*16*17*18*19*20*21*22*23*24*25,
+    1lu*2*3*4*5*6*7*8*9*10*11*12*13*14*15*16*17*18*19*20*21*22*23*24*25*26,
+    1lu*2*3*4*5*6*7*8*9*10*11*12*13*14*15*16*17*18*19*20*21*22*23*24*25*26*27,
+    1lu*2*3*4*5*6*7*8*9*10*11*12*13*14*15*16*17*18*19*20*21*22*23*24*25*26*27*28,
+    1lu*2*3*4*5*6*7*8*9*10*11*12*13*14*15*16*17*18*19*20*21*22*23*24*25*26*27*28*29,
+    1lu*2*3*4*5*6*7*8*9*10*11*12*13*14*15*16*17*18*19*20*21*22*23*24*25*26*27*28*29*30
+};
+
+template<typename T>
+T factorial(const T n)
+{
+    if (n<=factorialTableSize)
+        return factorialTable[n];
+
+    T ret = factorialTable[factorialTableSize];
+    for (T i = factorialTableSize+1; i <= n; ++i)
+        ret *= i;
+    return ret;
+}
+
+inline
+std::vector<uint8_t>
+permutation(const uint64_t n, const uint64_t p, const uint64_t k = 0)
+{
+    //
+    // Check that k is not too large
+    //
+
+    assert(k<=n);
+    if (k>n)
+        return std::vector<uint8_t>();
+
+    //
+    // Do it
+    //
+
+    const uint64_t length = k ? k : n;
+
+    //
+    // Create 'abcde...'
+    //
+
+    std::vector<uint8_t> perm;
+    for (uint64_t c=0; c<n; c++)
+        perm.push_back(n-1-c);
+
+    //
+
+    std::vector<uint8_t> out;
+    uint64_t seed = p;
+
+    while (out.size()<length)
+    {
+        const uint64_t choices = perm.size();
+        const uint64_t select = seed%choices;
+        seed = seed/choices;
+
+        out.push_back(perm[select]);
+        perm.erase(perm.begin()+select);
+    }
+
+    return out;
+}
+
+vector<std::vector<uint8_t>>
+permutations(const uint64_t n, const uint64_t k = 0)
+{
+    //
+    // Default behaviour is when k
+    // is assumed to be n
+    //
+    // k is the 'length' of desired
+    // permutations.  k!=n implies
+    // 'arrangements'.
+    //
+
+    if (k==0 || k==n)
+    {
+        const uint64_t size = factorial(n);
+        vector<std::vector<uint8_t>> perms;
+        perms.reserve(size);
+
+        for (uint64_t p=0; p<size; p++)
+            perms.push_back(permutation(n,p));
+
+        return perms;
+    }
+
+    //
+    // Do every arrangement of n
+    // select k.
+    //
+
+    const uint64_t size = factorial(n)/factorial(n-k);
+    vector<std::vector<uint8_t>> perms;
+    perms.reserve(size);
+
+    for (uint64_t p=0; p<size; p++)
+        perms.push_back(permutation(n, p, k));
+
+    return perms;
+}
+
+std::vector<uint8_t>
+fromString(const char *str)
+{
+    if (!str)
+        return std::vector<uint8_t>();
+
+    const char &first = *str;
+    const bool alpha = (first>='a' && first<='z');
+
+    std::vector<uint8_t> tmp;
+    const unsigned char *pos = (const unsigned char *) str;
+    while (*pos!=0)
+    {
+        uint8_t c = (uint8_t) (alpha ? (*pos)-'a' : (*pos)-'0');
+        tmp.push_back(c);
+        pos++;
+    }
+    return tmp;
+}
+
+bool
+insideByDecimation(const std::vector<uint8_t> & haystack, const std::vector<uint8_t> & needle)
+{
+    if ( needle.size() > haystack.size() )
+        return false;
+
+    if ( needle==haystack )
+        return true;
+
+    unsigned int h = 0;
+    unsigned int n = 0;
+
+    for (;;)
+    {
+        if (haystack[h]==needle[n])
+            n++;
+        h++;
+
+        if (n==needle.size())
+        {
+            #ifndef NDEBUG
+            cerr << "y" << endl;
+            #endif
+
+            return true;
+        }
+
+        if (h==haystack.size())
+        {
+            #ifndef NDEBUG
+            cerr << "n" << endl;
+            #endif
+
+            return false;
+        }
+    }
+}
 
 int main(int argc, char *argv[])
 {
@@ -36,15 +237,20 @@ int main(int argc, char *argv[])
     cerr << endl;
     #endif
 
-    std::vector<PesSequence> criteria;
+    vector<std::vector<uint8_t>> criteria;
     if (k>0)
     {
-        criteria = PesSequence::permutations(n, k);
+        criteria = permutations(n, k);
     }
     else
     {
-        criteria = PesSequence::permutations(n);
+        criteria = permutations(n);
     }
+
+    #ifndef NDEBUG
+    for (const auto & i : criteria)
+      cerr << i << endl;
+    #endif
 
     while (true)
     {
@@ -57,9 +263,9 @@ int main(int argc, char *argv[])
         cerr << line << endl;
         #endif
 
-        PesSequence s(line.c_str());
+        std::vector<uint8_t> s = fromString(line.c_str());
         for (const auto & i : criteria)
-            if (!s.insideByDecimation(i))
+            if (!insideByDecimation(s, i))
             {
                 goto fail;
             }

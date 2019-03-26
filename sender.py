@@ -11,7 +11,7 @@ socket.bind("tcp://*:5555")
 
 start = 0
 end = 42355950
-size = 1000000
+size = 5000000
 
 for i in xrange(start, end, size):
   request = socket.recv() # Wait for a request from a worker

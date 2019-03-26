@@ -1,8 +1,3 @@
-#CPP_SRC += src/nnr.cpp
-CPP_SRC += src/sequence.cpp
-#CPP_SRC += src/test.cpp
-#CPP_SRC += main.cpp
-
 CPP_FLAGS += -Isrc
 CPP_FLAGS += -Ithirdparty/include
 CPP_FLAGS += -std=c++11
@@ -17,10 +12,10 @@ endif
 
 default: nnr pes
 
-nnr: nnr.cpp Makefile $(CPP_SRC)
+nnr: nnr.cpp Makefile
 	$(CXX) $(CPP_SRC) $< ${CPP_FLAGS} -o $@
 
-pes: pes.cpp Makefile $(CPP_SRC)
+pes: pes.cpp Makefile
 	$(CXX) $(CPP_SRC) $< ${CPP_FLAGS} -o $@
 
 all: default
