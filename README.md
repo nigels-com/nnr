@@ -127,7 +127,7 @@ Filter for _Permutation Embedding Sequences_.
 | Intel® Core™ i5-2500K CPU @ 3.30GHz   |  29.83s |  1.1           |
 | AWS c5.large                          |  39.38s |  1.45          |
 | AWS a1.medium                         | 163.29s |                |
-| Raspberry Pi 3 Model B+               |  60.29s |  2.22          |
+| Raspberry Pi 3 Model B+               | 106.88s |  3.94          |
 
 ### nnr 4 4 12
 
