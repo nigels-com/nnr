@@ -6,6 +6,7 @@
 #include <string>
 #include <iostream>
 
+#include <cstring>
 #include <cassert>
 #include <cstdint>
 
@@ -177,42 +178,33 @@ fromString(const char *str)
     return tmp;
 }
 
+// p is embedded in [begin, end)
+
 bool
-insideByDecimation(const std::vector<uint8_t> & haystack, const std::vector<uint8_t> & needle)
+embeddedSequence(const uint8_t * begin, const uint8_t * end, const std::vector<uint8_t> & p)
 {
-    if ( needle.size() > haystack.size() )
+    const size_t size = end-begin;
+
+    if (p.size() > size)
         return false;
 
-    if ( needle==haystack )
+    if (p.size() == size && !memcmp(begin, &p[0], size))
         return true;
 
-    unsigned int h = 0;
     unsigned int n = 0;
-
-    for (;;)
+    for (const uint8_t * i = begin; i != end; ++i)
     {
-        if (haystack[h]==needle[n])
+        if (*i==p[n])
+        {
             n++;
-        h++;
-
-        if (n==needle.size())
-        {
-            #ifndef NDEBUG
-            cerr << "y" << endl;
-            #endif
-
-            return true;
-        }
-
-        if (h==haystack.size())
-        {
-            #ifndef NDEBUG
-            cerr << "n" << endl;
-            #endif
-
-            return false;
+            if (n==p.size())
+            {
+                return true;
+            }
         }
     }
+
+    return false;
 }
 
 int main(int argc, char *argv[])
@@ -247,6 +239,8 @@ int main(int argc, char *argv[])
         criteria = permutations(n);
     }
 
+    const size_t size = k>0 ? k : n;
+
     #ifndef NDEBUG
     for (const auto & i : criteria)
       cerr << i << endl;
@@ -265,7 +259,7 @@ int main(int argc, char *argv[])
 
         std::vector<uint8_t> s = fromString(line.c_str());
         for (const auto & i : criteria)
-            if (!insideByDecimation(s, i))
+            if (!embeddedSequence(&s[0], &s[0]+s.size(), i))
             {
                 goto fail;
             }
