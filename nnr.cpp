@@ -402,7 +402,7 @@ int main(int argc, char *argv[])
     #ifndef NDEBUG
     cerr << "n = " << n << endl;
     cerr << "l = " << l << endl;
-    if (start>=0 && end>0)
+    if (start>0 || end>0)
     {
         cerr << "start=" << start << endl;    
         cerr << "end=" << end << endl;

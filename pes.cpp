@@ -174,10 +174,10 @@ embeddedSequence(
     const size_t hSize = hEnd-hBegin;
     const size_t nSize = nEnd-nBegin;
 
-    if (nSize > nSize)
+    if (nSize > hSize)
         return false;
 
-    if (nSize == nSize && !memcmp(hBegin, nBegin, nSize))
+    if (nSize == hSize && !memcmp(hBegin, nBegin, nSize))
         return true;
 
     const uint8_t * j = nBegin;
@@ -231,11 +231,6 @@ int main(int argc, char *argv[])
     }
 
     const size_t size = k>0 ? k : n;
-
-    #ifndef NDEBUG
-    for (const auto & i : criteria)
-      cerr << i << endl;
-    #endif
 
     while (true)
     {
