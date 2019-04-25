@@ -113,6 +113,7 @@ Filter for _Permutation Embedding Sequences_.
 | ----------------------------------- | ---------- | --------------- |
 | Pentium 4 2Ghz                      |     12h(*) |                 |
 | Intel® Core™ i5-2500K CPU @ 3.30GHz |  2224.2s   |   1.0           |
+| Intel® Core™2 Duo T6400 @ 2.00GHz   |  5954.0s   |   2.7           |
 | Raspberry Pi 3 Model B+             | 28284.0s   |  12.7           |
 | AWS a1.medium                       |            |                 |
 | AWS c4.large                        |            |                 |
