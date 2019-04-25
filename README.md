@@ -105,29 +105,32 @@ Filter for _Permutation Embedding Sequences_.
 
 ### nnr5.sh
 
+(*)
 > It takes a 2Ghz Pentium 4 around 12 hours to test all NNR sequences for n = 5, l = 19.
 > We estimate that searching all NNR sequences for n = 6, l = 27 would take around 100 years on the same machine.
 
-| Target                              | Time                     | Relative Time             |
-| ----------------------------------- | ------------------------ | ------------------------- |
-| Pentium 4 2Ghz                      | 12h                      | 1.0                       |
-| Intel® Core™ i5-2500K CPU @ 3.30GHz |                          |                           |
-| Raspberry Pi 3 Model B+             |                          |                           |
-| AWS a1.medium                       |                          |                           |
-| AWS c4.large                        |                          |                           |
-| AWS c5.large                        |                          |                           |
+| Target                              | Time       | Relative Time   |
+| ----------------------------------- | ---------- | --------------- |
+| Pentium 4 2Ghz                      |     12h(*) |                 |
+| Intel® Core™ i5-2500K CPU @ 3.30GHz |  2224.2s   |   1.0           |
+| Raspberry Pi 3 Model B+             | 28284.0s   |  12.7           |
+| AWS a1.medium                       |            |                 |
+| AWS c4.large                        |            |                 |
+| AWS c5.large                        |            |                 |
 
 ### nnr5_4.sh
 
     $ /usr/bin/time -v ./nnr5_4.sh
 
-| Target                                | Time    | Relative Time  |
-| ------------------------------------- | ------- | -------------- |
-| Intel(R) Xeon(R) E3-1245 v5 @ 3.50GHz |  27.13s |  1.0           |
-| Intel® Core™ i5-2500K CPU @ 3.30GHz   |  29.83s |  1.1           |
-| AWS c5.large                          |  39.38s |  1.45          |
-| AWS a1.medium                         | 163.29s |                |
-| Raspberry Pi 3 Model B+               | 106.88s |  3.94          |
+| Target                                |     Time | Relative Time  |
+| ------------------------------------- | -------- | -------------- |
+| Intel(R) Xeon(R) E3-1245 v5 @ 3.50GHz |   27.13s |   1.0          |
+| Intel® Core™ i5-2500K CPU @ 3.30GHz   |   29.83s |   1.1          |
+| Intel® Core™2 Duo T6400 @ 2.00GHz     |   83.44s |   3.08         |
+| AWS c5.large                          |   39.38s |   1.45         |
+| AWS a1.medium                         |  163.29s |                |
+| Raspberry Pi 3 Model B+               |  106.88s |   3.94         |
+| Raspberry Pi                          | 2304.05s |  84.9          |
 
 ### nnr 4 4 12
 
