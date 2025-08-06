@@ -112,6 +112,7 @@ Filter for _Permutation Embedding Sequences_.
 | Target                              | Time       | Relative Time   |
 | ----------------------------------- | ---------- | --------------- |
 | Pentium 4 2Ghz                      |     12h(*) |                 |
+| AMD Ryzen 9 7900                    |  1002.6s   |   0.5           |
 | Intel® Core™ i5-2500K CPU @ 3.30GHz |  2224.2s   |   1.0           |
 | Intel® Core™2 Duo T6400 @ 2.00GHz   |  5954.0s   |   2.7           |
 | Raspberry Pi 3 Model B+             | 28284.0s   |  12.7           |
@@ -125,11 +126,12 @@ Filter for _Permutation Embedding Sequences_.
 
 | Target                                |     Time | Relative Time  |
 | ------------------------------------- | -------- | -------------- |
+| AMD Ryzen 9 7900                      |   15.53s |   0.57         |
 | Intel(R) Xeon(R) E3-1245 v5 @ 3.50GHz |   27.13s |   1.0          |
 | Intel® Core™ i5-2500K CPU @ 3.30GHz   |   29.83s |   1.1          |
 | Intel® Core™2 Duo T6400 @ 2.00GHz     |   83.44s |   3.08         |
 | AWS c5.large                          |   39.38s |   1.45         |
-| AWS a1.medium                         |  163.29s |                |
+| AWS a1.medium                         |  163.29s |   6.02         |
 | Raspberry Pi 3 Model B+               |  106.88s |   3.94         |
 | Raspberry Pi                          | 2304.05s |  84.9          |
 
